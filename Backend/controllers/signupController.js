@@ -13,7 +13,7 @@ function validation(e) {
 exports.createSignup = async (req, res) => {
   try {
     const { name, email, phoneNumber, password } = req.body;
-    console.log('Phone Number:', phoneNumber);
+    //console.log('Phone Number:', phoneNumber);
 
     if (
       validation(name) ||
@@ -31,19 +31,20 @@ exports.createSignup = async (req, res) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+        console.log('User already exists');
+      return res.status(400).json({ message: 'User already exists' , existingUser: true});
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+    
     const newSignup = await Signup.create({
       name,
       email,
-      phoneNumber:cleanPhoneNumber,
+      phoneNumber,
       password: hashedPassword,
     });
 
-    res.status(201).json({ message: "SignUp successfully", signup: newSignup });
+    res.status(201).json({ message: "SignUp successfully", signup: newSignup,existingUser: false  });
   } catch (error) {
     console.log("Error creating signup:", error);
     res.status(500).json({ error: "Server error" });
@@ -59,3 +60,38 @@ exports.getAllSignUp = async (req, res) => {
     res.status(500).json({ err: "Server error" });
   }
 };
+
+exports.createLogin = async (req, res) => {
+  try {
+  const { email, password } = req.body;
+  if (validation(email) || validation(password)) {
+    return res.status(400).json({ message: "Field required" });
+  }
+  const user = await Signup.findAll({ where: { email: email } });
+  console.log("user", user);
+  if (user.length > 0) {
+    bcrypt.compare(password, user[0].password, (err, resp) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ success: false, message: "User not authorized" });
+      }
+      if (resp) {
+        return res.status(201).json({ message: "User Login Successful" });
+      } else {
+        console.log(resp);
+        return res.status(400).json({ message: "Password not authorized" });
+      }
+    });
+  } else {
+    return res.status(404).json({ message: "User not authorized" });
+  }
+} catch (err) {
+  console.log("Error retrieving Signup:", err);
+  res.status(500).json({ err: "Server error" });
+}
+};
+
+
+
+
