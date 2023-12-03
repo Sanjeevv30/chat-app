@@ -1,6 +1,11 @@
 const Signup = require("../models/signup");
 const bcrypt = require("bcrypt");
-const util = require('../util/database')
+const util = require('../util/database');
+const jwt = require('jsonwebtoken');
+
+exports.generateJwt = (id, name)=>{
+  return jwt.sign({ userId: id, name: name }, 'secretKey');
+}
 
 function validation(e) {
   if (e == null || e == undefined || e.length == 0) {
@@ -77,8 +82,10 @@ exports.createLogin = async (req, res) => {
           .json({ success: false, message: "User not authorized" });
       }
       if (resp) {
-        return res.status(201).json({ message: "User Login Successful" });
-      } else {
+        return res
+        .status(201)
+        .json({ message: "User Login Successful",user,token: exports.generateJwt(user[0].id, user[0].name)})
+        } else {
         console.log(resp);
         return res.status(400).json({ message: "Password not authorized" });
       }

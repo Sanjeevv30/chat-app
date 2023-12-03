@@ -17,7 +17,7 @@ const Signup = sequelize.define("Signup", {
   phoneNumber: {
     type: Sequelize.STRING(20),
     allowNull: false,
-},
+  },
   password: {
     type: Sequelize.STRING,
     allowNull: false,
