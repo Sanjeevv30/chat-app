@@ -86,7 +86,7 @@ exports.createLogin = async (req, res) => {
         .status(201)
         .json({ message: "User Login Successful",user,token: exports.generateJwt(user[0].id, user[0].name)})
         } else {
-        console.log(resp);
+        //console.log(resp);
         return res.status(400).json({ message: "Password not authorized" });
       }
     });

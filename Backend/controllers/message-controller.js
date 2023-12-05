@@ -4,7 +4,7 @@ const userGroupDb = require("../models/user-group");
 
 exports.message = async (req, res) => {
   try {
-    const { messageBody } = req.body;
+    const messageBody  = req.body.msg;
     const data = await message.create({
       message: messageBody,
       userId: req.user.id,
@@ -21,7 +21,7 @@ let groupIds;
 
 exports.all_message = async (req, res) => {
   try {
-    groupIds = req.header("Authorization");
+    groupIds = req.headers.authorization;
     const data = await message.findAll({ where: { groupId: groupIds } });
     res.json({ allData: data });
   } catch (error) {
@@ -30,7 +30,7 @@ exports.all_message = async (req, res) => {
   }
 };
 
-exports.getAllUser = async (res, res) => {
+exports.getAllUser = async (req, res) => {
   try {
     const data = await signup.findAll();
     res.json({ allUser: data });
@@ -39,7 +39,7 @@ exports.getAllUser = async (res, res) => {
   }
 };
 
-exports.addToGroup = async (res, res) => {
+exports.addToGroup = async (req, res) => {
   try {
     const userId = req.user.id;
     const groupId = req.body.groupId;

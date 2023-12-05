@@ -3,6 +3,7 @@ const signup = require("../models/signup");
 exports.authenticate = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
+    //console.log(token)
     const secretKey = "secretKey";
     const payload = jwt.verify(token, secretKey);
     const loggedInUserData = await signup.findOne({
@@ -18,3 +19,4 @@ exports.authenticate = async (req, res, next) => {
     return res.status(500).json({ message: "Error in the Authentication" });
   }
 };
+
