@@ -1,6 +1,63 @@
 let sendBtn = document.getElementById("send");
 let message = document.getElementById("chat");
+let manageButton = document.getElementById("manage");
 const parent = document.getElementById("allMessages");
+
+//send message button functionality
+sendBtn.onclick = async (e) => {
+  try {
+    e.preventDefault();
+    const groupId = localStorage.getItem("groupId");
+    const obj = {
+      msg: message.value,
+      groupId: groupId,
+    };
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      "http://localhost:8000/message/messagess",
+      obj,
+      { headers: { Authorization: token } }
+    );
+    console.log(response.data.message.userName);
+    showChatOnScreen(
+      response.data.message.id,
+      response.data.message.userName,
+      response.data.message.message
+    );
+  } catch (error) {
+    console.log("error in sending message", error);
+  }
+};
+
+async function showChatOnScreen(id, name, postmsg) {
+  try {
+    if (postmsg) {
+      let recent = id - 10;
+      localStorage.removeItem(recent);
+      localStorage.setItem(id, postmsg);
+      window.location.reload();
+    }
+    const token = localStorage.getItem("token");
+    const decodeToken = parseJwt(token);
+    const user = decodeToken.name;
+    console.log("Username:", user);
+    const msg = localStorage.getItem(id);
+    const parent = document.getElementById("allMessages");
+    const child = document.createElement('div');
+    child.innerHTML = `<p id="username"> ${name}</p>${msg}`;
+    child.classList.add('message');
+    if(`${name}`===user){
+      child.classList.add('your-message')
+    }else{
+      child.classList.add('other-message')
+    }
+    parent.appendChild(child)
+    // const child = `<li>${name}:${msg}</li><br>`;
+    // parent.innerHTML = parent.innerHTML + child;
+  } catch (e) {
+    console.log("error in showChatOnScreen", e);
+  }
+}
 
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
@@ -20,14 +77,14 @@ function parseJwt(token) {
 
 window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const groupId = localStorage.getItem("groupId");//marked
+    const groupId = localStorage.getItem("groupId");
     const response = await axios.get(
       "http://localhost:8000/message/all-messages",
       { headers: { Authorization: groupId } }
     );
-
     const showData = response.data.allData;
-    console.log(showData[1].userName);
+    //console.log(userName)
+    //console.log(showData[1].userName);
     if (showData.length <= 10) {
       for (let i = 0; i < 10; i++) {
         localStorage.setItem(showData[i].id, showData[i].message);
@@ -44,52 +101,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.log("dom loading error in messages", err);
   }
 });
-//show chat on screen
-
-async function showChatOnScreen(id, name, postmsg) {
-  try {
-    if (postmsg) {
-      let recent = id - 10;
-      localStorage.removeItem(recent);
-      localStorage.setItem(id, postmsg);
-      window.location.reload();
-    }
-    const msg = localStorage.getItem(id);
-    const parent = document.getElementById("allMessages");
-    const child = `<li>${name}:${msg}</li><br>`;
-    parent.innerHTML = parent.innerHTML + child;
-  } catch (e) {
-    console.log("error in showchatonscreen", e);
-  }
-}
-
-//send message button functionality
-sendBtn.onclick = async (e) => {
-  try {
-    e.preventDefault();
-    const groupId = localStorage.getItem("groupId");
-    const obj = {
-      msg: message.value,
-      groupId: groupId
-    };
-    const token = localStorage.getItem("token");
-    const response = await axios.post(
-      "http://localhost:8000/message/messagess",
-      obj,
-      { headers: {  Authorization: token } });
-    console.log(response.data.message.userName);
-    showChatOnScreen(
-      response.data.message.id,
-      response.data.message.userName,
-      response.data.message.message
-    );
-  } catch (error) {
-    console.log("error in sending message", error);
-  }
-};
-
 //manage members button
-const manageButton = document.getElementById("manage");
 
 manageButton.addEventListener("click", manageMembers);
 
@@ -100,7 +112,7 @@ async function manageMembers(e) {
     document.getElementById("showMemebrs").style.display = "block";
     const token = localStorage.getItem("token");
     const response = await axios.get("http://localhost:8000/message/getuser", {
-      headers: {  Authorization: token },
+      headers: { Authorization: token },
     });
     const members = document.getElementById("alreadyMember");
     const userDetails = response.data.allUser;
@@ -111,7 +123,7 @@ async function manageMembers(e) {
       arr1.push(userDetails[i].id);
     }
     const result = await axios.get("http://localhost:8000/message/allusers", {
-      headers: {  Authorization: token },
+      headers: { Authorization: token },
     });
     let arr2 = [];
     console.log(result);
@@ -173,6 +185,7 @@ async function manageMembers(e) {
 
       const parentUser = document.getElementById("members");
       parentUser.innerHTML = "";
+
       //add members
       for (let i = 0; i < adminAccess.length; i++) {
         if (adminAccess[i] === decodeToken.userId) {
@@ -226,7 +239,7 @@ async function manageMembers(e) {
 document.getElementById("back").onclick = () => {
   document.getElementById("showMemebrs").style.display = "none";
   parent.style.display = "block";
-  window.location.href = "./message.html";
+  window.location.href = "../Message/message.html";
 };
 
 //addMember button
@@ -240,9 +253,8 @@ async function addMember(id) {
   document.getElementById("showMemebrs").style.display = "none";
   const response = await axios.post(
     "http://localhost:8000/message/addToGroup",
-    obj,{
-    headers: {  Authorization: token },
-    });
+    obj,
+  );
 
   window.location.reload();
 

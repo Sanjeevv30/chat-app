@@ -10,7 +10,52 @@ logout.addEventListener("click", async () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", async function (e) {
+//creating groups
+document.getElementById("newGroup").onclick = (e) => {
+  e.preventDefault();
+  const Input = document.createElement("input");
+  Input.type = "text";
+  Input.id = "groupname";
+  Input.placeholder = "enter group name";
+  //console.log(Input);
+
+  const button = document.createElement("button");
+  const text = document.createTextNode("create");
+  button.id = "createButton";
+  button.appendChild(text);
+  //console.log(button);
+
+  const parent1 = document.getElementById("group");
+  const parent2 = document.getElementById("groupButton");
+  parent1.appendChild(Input);
+  parent2.appendChild(button);
+
+  const createGrpButton = document.getElementById("createButton");
+  console.log(createGrpButton);
+
+  createGrpButton.onclick = async () => {
+    try {
+      //console.log("create button is clicked");
+      const name = document.getElementById("groupname");
+      const grp = {
+        gname: name.value,
+      };
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:8000/group/addgroup",
+        grp,
+        {
+          headers: { "Authorization": token },
+        }
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+window.addEventListener("DOMContentLoaded", async (e)=> {
   try {
     e.preventDefault();
     getAllGroupNames();
@@ -49,53 +94,10 @@ async function getAllGroupNames(addGroup) {
 
 async function insideGroup(id) {
   try {
-    localStorage.setItem("groupId", id);
-    window.location.href = "../Message/message.html";
+    localStorage.setItem("groupId",id);
+     window.location.href = "../Message/message.html";
   } catch (err) {
     console.log("error in inside group ", err);
   }
 }
-//creating groups
-document.getElementById("newGroup").onclick = async (e) => {
-  e.preventDefault();
-  const Input = document.createElement("input");
-  Input.type = "text";
-  Input.id = "groupname";
-  Input.placeholder = "enter group name";
-  console.log(Input);
 
-  const button = document.createElement("button");
-  const text = document.createTextNode("create");
-  button.id = "createButton";
-  button.appendChild(text);
-  console.log(button);
-
-  const parent1 = document.getElementById("group");
-  const parent2 = document.getElementById("groupButton");
-  parent1.appendChild(Input);
-  parent2.appendChild(button);
-
-  const createGrpButton = document.getElementById("createButton");
-  console.log(createGrpButton);
-
-  createGrpButton.onclick = async () => {
-    try {
-      console.log("create button is clicked");
-      const name = document.getElementById("groupname");
-      const grp = {
-        gname: name.value,
-      };
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:8000/group/addgroup",
-        grp,
-        {
-          headers: { Authorization: token },
-        }
-      );
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
