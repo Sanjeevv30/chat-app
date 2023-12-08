@@ -23,6 +23,7 @@ document.getElementById("newGroup").onclick = (e) => {
   const text = document.createTextNode("create");
   button.id = "createButton";
   button.appendChild(text);
+  
   //console.log(button);
 
   const parent1 = document.getElementById("group");
@@ -45,7 +46,7 @@ document.getElementById("newGroup").onclick = (e) => {
         "http://localhost:8000/group/addgroup",
         grp,
         {
-          headers: { "Authorization": token },
+          headers: { Authorization: token },
         }
       );
       console.log(response);
@@ -55,7 +56,7 @@ document.getElementById("newGroup").onclick = (e) => {
   };
 };
 
-window.addEventListener("DOMContentLoaded", async (e)=> {
+window.addEventListener("DOMContentLoaded", async (e) => {
   try {
     e.preventDefault();
     getAllGroupNames();
@@ -82,7 +83,7 @@ async function getAllGroupNames(addGroup) {
     for (let i = 0; i < groupNames.length; i++) {
       console.log(groupId);
 
-      let child = `<button onclick="insideGroup(${groupId[i]})" class="btn btn-outline-success btn-lg" style="width:100%;margin-bottom:5px;display: flex; text-transform: uppercase;padding-left:12%; color:black">${groupNames[i]}</button>`;
+      let child = `<button onclick="insideGroup(${groupId[i]})">${groupNames[i]}</button>`;
 
       parent.innerHTML = parent.innerHTML + child;
     }
@@ -94,10 +95,9 @@ async function getAllGroupNames(addGroup) {
 
 async function insideGroup(id) {
   try {
-    localStorage.setItem("groupId",id);
-     window.location.href = "../Message/message.html";
+    localStorage.setItem("groupId", id);
+    window.location.href = "../Message/message.html";
   } catch (err) {
     console.log("error in inside group ", err);
   }
 }
-

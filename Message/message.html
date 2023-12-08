@@ -9,7 +9,9 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+   
     <title>Chat-Page</title>
+    <link rel="stylesheet" type="text/css" href="message.css">
   </head>
   <body>
     <header>
@@ -21,8 +23,9 @@
     <div id="showMemebrs" style="display: none">
       <h3 id="logoh3">Members</h3>
       <ol id="alreadyMember"></ol>
+      <ol id="adminBtn"></ol>
       <hr style="background-color: black" />
-      <h3 id="logoh3">add Members</h3>
+      <h3 id="logoh3">Add Members</h3>
       <hr style="background-color: black" />
       <ol id="members"></ol>
       <button id="back" class="btn btn-primary btn-sm">back</button>
@@ -36,6 +39,7 @@
         style="width: 180px"
         placeholder="Message"
       /><br />
+      <!-- <div id="adminbtn"></div> -->
       <button id="send">Send</button>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

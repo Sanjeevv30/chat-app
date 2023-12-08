@@ -43,15 +43,15 @@ async function showChatOnScreen(id, name, postmsg) {
     console.log("Username:", user);
     const msg = localStorage.getItem(id);
     const parent = document.getElementById("allMessages");
-    const child = document.createElement('div');
+    const child = document.createElement("div");
     child.innerHTML = `<p id="username"> ${name}</p>${msg}`;
-    child.classList.add('message');
-    if(`${name}`===user){
-      child.classList.add('your-message')
-    }else{
-      child.classList.add('other-message')
+    child.classList.add("message");
+    if (`${name}` === user) {
+      child.classList.add("your-message");
+    } else {
+      child.classList.add("other-message");
     }
-    parent.appendChild(child)
+    parent.appendChild(child);
     // const child = `<li>${name}:${msg}</li><br>`;
     // parent.innerHTML = parent.innerHTML + child;
   } catch (e) {
@@ -83,8 +83,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       { headers: { Authorization: groupId } }
     );
     const showData = response.data.allData;
-    //console.log(userName)
-    //console.log(showData[1].userName);
     if (showData.length <= 10) {
       for (let i = 0; i < 10; i++) {
         localStorage.setItem(showData[i].id, showData[i].message);
@@ -218,7 +216,11 @@ async function manageMembers(e) {
               }
             <button onclick="removeMember(${
               users[membersArray[i] - 1].id
-            })" class="btn btn-danger btn-sm" style="float:right">remove</button></li><br>`;
+            })" class="btn btn-danger btn-sm" style="float:right">remove</button></li><br>
+            <button onclick="addAdmin(${
+              users[membersArray[i] - 1].id
+            })"  id="adminBtn" class="btn btn-primary btn-sm" style="float:right">Add as Admin</button>`;
+
               members.innerHTML += child;
             }
           }
@@ -253,7 +255,7 @@ async function addMember(id) {
   document.getElementById("showMemebrs").style.display = "none";
   const response = await axios.post(
     "http://localhost:8000/message/addToGroup",
-    obj,
+    obj
   );
 
   window.location.reload();
@@ -273,9 +275,35 @@ async function removeMember(id) {
     const child = document.getElementById(id);
     if (confirm("Do you want to remove this user?")) {
       members.removeChild(child);
-      confirm("Do you want to remove this user?");
       const response = await axios.post(
         "http://localhost:8000/message/removeMember",
+        obj
+      );
+      window.location.reload();
+    } else {
+      window.location.reload();
+    }
+  } catch (e) {
+    console.log("error in remove member dom");
+  }
+}
+async function addAdmin(id) {
+  try {
+    const groupId = localStorage.getItem("groupId");
+    const obj = {
+      userId: id,
+      groupId: groupId,
+    };
+    console.log(obj);
+    var btn = document.getElementById("adminBtn");
+    btn.style.display = "none";
+
+    const members = document.getElementById("alreadyMember");
+    const child = document.getElementById(id);
+    members.removeChild(child);
+    if (confirm("Do you want to add as admin ?")) {
+      const data = await axios.post(
+        "http://localhost:8000/message/addAdmin",
         obj
       );
       window.location.reload();

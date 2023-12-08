@@ -1,7 +1,10 @@
+/* chat.css */
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    background-color:aquamarine;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,34 +13,112 @@ body {
 }
 
 h1 {
-    color: #333;
+    background-color: #128c7e;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px;
 }
 
-form {
+.flexible {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.chats {
+    color: #075e54;
+    font-size: 24px;
+    margin-bottom: 0;
+}
+
+#newGroup {
+    background-color: #075e54;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#chatContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color:darkgray;
+    padding: 80px;
+    border-radius: 18px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#messageDisplay {
+    margin-bottom: 20px;
+}
+
+#group {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#groupname {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #d40e0e;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+#createButton {
+    background-color: #075e54;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#createButton:hover {
+    background-color: #064e42;
+}
+
+#groupButtons {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    height: 200px;
+    width: 100%;
+    color: #075e54;
 }
 
-input {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    width: 300px;
+#groupButtons button {
+    background: #128c7e;
+    color: #fff;
+    padding: 15px;
+    margin: 10px;
+    cursor: pointer;
+    border: 2px solid #075e54;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+    font-size: 18px;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #007bff;
+#groupButtons button:hover {
+    background: #075e54;
+}
+
+#logout {
+    background-color: #dc3545;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    padding: 10px 20px;
     cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 16px;
 }

@@ -1,0 +1,122 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .flexible {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chats {
+    margin: 0;
+  }
+  
+  #manage {
+    margin: 10px;
+  }
+  
+  #showMemebrs {
+    display: none;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  #logoh3 {
+    color: #007bff;
+  }
+  
+  #alreadyMember,
+  #members {
+    padding-left: 20px;
+  }
+  
+  #back {
+    margin-top: 10px;
+  }
+  
+  #allMessages {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  #chat {
+    flex-grow: 1;
+    padding: 10px;
+  }
+  
+  #send {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  #allMessages {
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .message {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    max-width: 70%;
+  }
+  
+  .sent {
+    background-color: #4caf50;
+    color: #fff;
+    align-self: flex-end;
+  }
+  
+  .received {
+    background-color: #3498db;
+    color:aqua;
+    align-self: flex-start;
+  }
+  
+  .userName {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .messageText {
+    word-wrap: break-word;
+  }
+  
+  /* Add a subtle shadow for a card-like effect */
+  .message {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  

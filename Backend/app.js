@@ -19,11 +19,6 @@ app.use("/", signupRoute);
 app.use("/message", messageRoute);
 app.use("/group", groupRoute);
 
-// Message.sync();
-// Signup.sync();
-// userGroup.sync();
-// group.sync();
-// //ArchiveDb.sync();
 sequelize
   .sync()
   .then(() => {

@@ -9,5 +9,6 @@ route.post("/addToGroup", message.addToGroup);
 route.get("/getuser", userAuthenticate.authenticate, message.getUser);
 route.get("/allusers", message.getAllUser);
 route.post("/removeMember", message.removeMember);
+route.post("/addAdmin",message.addAdmin);
 
 module.exports = route;
