@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
 
-const Signup = sequelize.define("Signup", {
+const Signup = sequelize.define("signup", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,

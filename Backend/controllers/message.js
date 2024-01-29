@@ -1,6 +1,6 @@
-const message = require("../models/message");
-const signup = require("../models/signup");
-const userGroupDb = require("../models/user-group");
+const Message = require("../models/message");
+const Signup = require("../models/signup");
+const UserGroupDb = require("../models/userGroup");
 const sequelize = require("../util/database");
 
 exports.message = async (req, res) => {
@@ -8,12 +8,12 @@ exports.message = async (req, res) => {
   try {
     const messageBody = req.body.msg;
     const groupId = req.body.groupId;
-    const data = await message.create(
+    const data = await Message.create(
       {
         // id:id,
         message: messageBody,
         userId: req.user.id,
-        groupId: groupId,
+        group: groupId,
         userName: req.user.name,
       },
       { transaction: t }
@@ -32,8 +32,8 @@ exports.all_message = async (req, res) => {
   const t = await sequelize.transaction();
   try {
     groupIds = req.headers.authorization;
-    const data = await message.findAll(
-      { where: { groupId: groupIds } },
+    const data = await Message.findAll(
+      { where: { group: groupIds } },
       { transaction: t }
     );
     await t.commit();
@@ -48,7 +48,7 @@ exports.all_message = async (req, res) => {
 exports.getAllUser = async (req, res) => {
   const t = await sequelize.transaction();
   try {
-    const data = await signup.findAll();
+    const data = await Signup.findAll();
     await t.commit();
     res.json({ allUser: data });
   } catch (err) {
@@ -63,10 +63,10 @@ exports.addToGroup = async (req, res) => {
     const userId = req.body.userId;
     const groupId = req.body.groupId;
     //console.log(userId, groupId);
-    const data = await userGroupDb.create(
+    const data = await UserGroupDb.create(
       {
         userId: userId,
-        groupNameId: groupId,
+        group: groupId,
       },
       { transaction: t }
     );
@@ -82,16 +82,16 @@ exports.getUser = async (req, res) => {
   const t = await sequelize.transaction();
   try {
     const userId = req.user.id;
-    const data = await userGroupDb.findAll(
+    const data = await UserGroupDb.findAll(
       {
-        where: { groupNameId: groupIds },
+        where: { group: groupIds },
       },
       { transaction: t }
     );
     let arr = [];
     for (let i = 0; i < data.length; i++) {
       const id = data[i].dataValues.userId;
-      const data2 = await signup.findOne({ where: { id: id } });
+      const data2 = await Signup.findOne({ where: { id: id } });
       arr.push(data2.dataValues);
     }
     await t.commit();
@@ -108,9 +108,9 @@ exports.removeMember = async (req, res) => {
   try {
     const userId = req.body.userId;
     const groupId = req.body.groupId;
-    const data = await userGroupDb.findOne(
+    const data = await UserGroupDb.findOne(
       {
-        where: { userId: userId, groupNameId: groupId },
+        where: { userId: userId, group: groupId },
       },
       { transaction: t }
     );
@@ -126,7 +126,7 @@ exports.addAdmin = async (req, res) => {
   try {
     const userId = req.body.userId;
     const groupId = req.body.groupId;
-    const data = await userGroupDb.update(
+    const data = await UserGroupDb.update(
       { isAdmin: true },
       { where: { userId: userId, groupId: groupId } },
       { transaction: t }

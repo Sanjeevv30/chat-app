@@ -7,6 +7,6 @@ const Group = sequelize.define("groupName", {
     autoIncrement: true,
     primaryKey: true,
   },
-  groupName: Sequelize.STRING,
+  group: Sequelize.STRING,
 });
 module.exports = Group;

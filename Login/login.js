@@ -11,7 +11,7 @@ async function login(e){
         localStorage.setItem('token',postLogin.data.token)
         localStorage.setItem("userDetails", JSON.stringify(postLogin.data.user));
         alert(postLogin.data.message);
-        window.location.href = "../Chat-App/chat.html";
+        window.location.href = "../Group/group.html";
 
     }catch(error){
         console.log(error)

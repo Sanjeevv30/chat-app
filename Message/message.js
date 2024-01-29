@@ -14,11 +14,12 @@ sendBtn.onclick = async (e) => {
     };
     const token = localStorage.getItem("token");
     const response = await axios.post(
-      "http://localhost:8000/message/messagess",
+      "http://localhost:8000/message/messages",
       obj,
       { headers: { Authorization: token } }
     );
     console.log(response.data.message.userName);
+    console.log(groupId)
     showChatOnScreen(
       response.data.message.id,
       response.data.message.userName,
@@ -39,7 +40,7 @@ async function showChatOnScreen(id, name, postmsg) {
     }
     const token = localStorage.getItem("token");
     const decodeToken = parseJwt(token);
-    const user = decodeToken.name;
+    const user = decodeToken.name 
     console.log("Username:", user);
     const msg = localStorage.getItem(id);
     const parent = document.getElementById("allMessages");
@@ -99,7 +100,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.log("dom loading error in messages", err);
   }
 });
-//manage members button
+//manage members button '/ get all user
 
 manageButton.addEventListener("click", manageMembers);
 
@@ -109,7 +110,7 @@ async function manageMembers(e) {
     parent.style.display = "none";
     document.getElementById("showMemebrs").style.display = "block";
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:8000/message/getuser", {
+    const response = await axios.get("http://localhost:8000/message/getUser", {
       headers: { Authorization: token },
     });
     const members = document.getElementById("alreadyMember");
@@ -120,7 +121,7 @@ async function manageMembers(e) {
     for (let i = 0; i < userDetails.length; i++) {
       arr1.push(userDetails[i].id);
     }
-    const result = await axios.get("http://localhost:8000/message/allusers", {
+    const result = await axios.get("http://localhost:8000/message/allUsers", {
       headers: { Authorization: token },
     });
     let arr2 = [];
@@ -241,7 +242,7 @@ async function manageMembers(e) {
 document.getElementById("back").onclick = () => {
   document.getElementById("showMemebrs").style.display = "none";
   parent.style.display = "block";
-  window.location.href = "../Message/message.html";
+  window.location.href = "../Group/group.html";
 };
 
 //addMember button
@@ -262,7 +263,7 @@ async function addMember(id) {
 
   confirm("User added successfully...");
 }
-
+// remove member
 async function removeMember(id) {
   try {
     const groupId = localStorage.getItem("groupId");
@@ -314,3 +315,4 @@ async function addAdmin(id) {
     console.log("error in remove member dom");
   }
 }
+

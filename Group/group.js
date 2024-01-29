@@ -39,11 +39,11 @@ document.getElementById("newGroup").onclick = (e) => {
       //console.log("create button is clicked");
       const name = document.getElementById("groupname");
       const grp = {
-        gname: name.value,
+        name: name.value,
       };
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8000/group/addgroup",
+        "http://localhost:8000/group/add",
         grp,
         {
           headers: { Authorization: token },
@@ -64,7 +64,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     console.log("loading error...");
   }
 });
-
+//get groups
 async function getAllGroupNames(addGroup) {
   try {
     if (addGroup) {
@@ -72,7 +72,7 @@ async function getAllGroupNames(addGroup) {
       parent.innerHTML = "";
     }
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:8000/group/getname", {
+    const response = await axios.get("http://localhost:8000/group", {
       headers: { Authorization: token },
     });
     console.log(response);

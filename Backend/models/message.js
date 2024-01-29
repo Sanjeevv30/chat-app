@@ -9,7 +9,7 @@ const Message = sequelize.define("Message", {
     autoIncrement: true,
   },
   message: Sequelize.STRING,
-  groupId: Sequelize.INTEGER,
+  group: Sequelize.INTEGER,
   userName: Sequelize.STRING,
 });
 

@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
-const ArchiveDb=sequelize.define("ArchiveDb",{
+const ArchiveDb=sequelize.define("archiveDb",{
     id:{
         type:Sequelize.INTEGER,
         autoIncrement:true,
         primaryKey:true
     },
     message:Sequelize.STRING,
-    userId:Sequelize.INTEGER,
-    groupId:Sequelize.INTEGER,
+    user:Sequelize.INTEGER,
+    group:Sequelize.INTEGER,
     userName:Sequelize.STRING
 })
 
